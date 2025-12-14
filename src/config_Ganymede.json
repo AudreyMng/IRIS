@@ -1,0 +1,19 @@
+{
+    "region_ion": ["polar", "leading", "trailing"],
+    "region_electron": ["60N90N", "20N60N", "20N20S", "20S60S", "60S90S"],
+    "measure": "G8",
+    "temperature": {
+        "range_poles": [90, 120],
+        "range_equator": [90, 155],
+        "amorph": [90, 100, 110]
+    },
+    "task": {
+        "erosion_rate": true,
+        "dose_without_sput": false,
+        "dose_with_sput_H2O": false,
+        "dose_with_sput_O2": false,
+        "amorph_poles": false,
+        "amorph_poles_recryst": false,
+        "amorph_poles_40Krecryst": false
+    }
+}
