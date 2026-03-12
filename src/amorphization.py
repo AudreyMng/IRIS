@@ -371,7 +371,7 @@ def compute_amorph(region, Temp, pts_RK2, f = f_exp, t0 = 0):
     tf_yr = dose.determine_steady_state(erosion_1yr_cm, penetration_depth)
     time_step = delta_x / erosion_1yr_cm
     print(f'time_step = {time_step} yr.')
-    t = np.arange(t0, tf_yr, h)
+    
 
     # To use the RK2 method, the time step should be small enough. We define h_RK2 = h / pts_RK2 to compute amorph_move as a function of depth.
     h = delta_x / erosion_1yr_cm
@@ -379,6 +379,7 @@ def compute_amorph(region, Temp, pts_RK2, f = f_exp, t0 = 0):
     print ("delta_x = ", delta_x, " cm")
     print ("h = ", h, " yr")
     print ("h_RK2 = ", h_RK2, " yr")
+    t = np.arange(t0, tf_yr, h)
    
     amorph_move, amorph_move_up, amorph_move_down = np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth))
     k1, k2, k1_up, k2_up, k1_down, k2_down = np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth))
@@ -472,7 +473,7 @@ def compute_amorph_recryst(region, Temp, pts_RK2, f = f_recryst, t0 = 0):
     tf_yr = dose.determine_steady_state(erosion_1yr_cm, penetration_depth)
     time_step = delta_x / erosion_1yr_cm
     print(f'time_step = {time_step} yr.')
-    t = np.arange(t0, tf_yr, h)
+    
 
     # To use the RK2 method, the time step should be small enough. We define h_RK2 = h / pts_RK2 to compute amorph_move as a function of depth.
     h = delta_x / erosion_1yr_cm
@@ -480,6 +481,8 @@ def compute_amorph_recryst(region, Temp, pts_RK2, f = f_recryst, t0 = 0):
     print ("delta_x = ", delta_x, " cm")
     print ("h = ", h, " yr")
     print ("h_RK2 = ", h_RK2, " yr")
+    t = np.arange(t0, tf_yr, h)
+    #print (t)
     
     amorph_move, amorph_move_up, amorph_move_down = np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth))
     k1, k2, k1_up, k2_up, k1_down, k2_down = np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth))
@@ -583,7 +586,6 @@ def compute_amorph_40Krecryst(region, Temp, pts_RK2, f = f_recryst, t0 = 0):
     tf_yr = dose.determine_steady_state(erosion_1yr_cm, penetration_depth)
     time_step = delta_x / erosion_1yr_cm
     print(f'time_step = {time_step} yr.')
-    t = np.arange(t0, tf_yr, h)
 
     # To use the RK2 method, the time step should be small enough. We define h_RK2 = h / pts_RK2 to compute amorph_move as a function of depth.
     h = delta_x / erosion_1yr_cm
@@ -591,10 +593,11 @@ def compute_amorph_40Krecryst(region, Temp, pts_RK2, f = f_recryst, t0 = 0):
     print ("delta_x = ", delta_x, " cm")
     print ("h = ", h, " yr")
     print ("h_RK2 = ", h_RK2, " yr")
-    
+    t = np.arange(t0, tf_yr, h)
+
     amorph_move, amorph_move_up, amorph_move_down = np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth))
     k1, k2, k1_up, k2_up, k1_down, k2_down = np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth))
-    verif = np.zeros(len(t))
+    #verif = np.zeros(len(t))
     #phiA_theorique = np.zeros(len(t))
 
     j = 0
