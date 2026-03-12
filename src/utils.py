@@ -2,11 +2,11 @@
 
 import os
 import shutil
-import constants
+import constants_Ganymede
 from datetime import datetime
 
 #BACKUP_DIR = constants.WORK_DIR + '\\backup\\'
-BACKUP_DIR = os.path.join(constants.WORK_DIR, 'backup')
+BACKUP_DIR = os.path.join(constants_Ganymede.WORK_DIR, 'backup')
 
 def write_file(fileName, *lists):
     """
@@ -19,7 +19,7 @@ def write_file(fileName, *lists):
     Returns:
         None
     """
-    if constants.DO_BACKUP:
+    if constants_Ganymede.DO_BACKUP:
         backup_file(fileName)
     with open(fileName, 'w') as file:
         for elements in zip(*lists):
