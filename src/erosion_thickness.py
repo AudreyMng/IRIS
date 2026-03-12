@@ -274,6 +274,5 @@ if __name__ == "__main__":
     compute_erosion_electron(90, "60S90S")
     compute_erosion_electron(120, "60S90S")
     """
-    compute_erosion_electron(90, "60N90N")
 
 

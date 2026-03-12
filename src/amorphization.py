@@ -200,7 +200,7 @@ def compute_sigma_flux(depth, region, elem, Temp):
         for x in range(0, len(depth)-1):
             #print ("E = ", E, "eV")
             if(E<10):   # when ion energy < 10 eV, it is considered implanted
-                print(f"implantation depth = {depth[x]} cm")   # should be coherent with the projected range given by SRIM.
+                #print(f"implantation depth = {depth[x]} cm")   # should be coherent with the projected range given by SRIM.
                 break
             index_E = locate_value(E, energy_INT_eV)
             Se = Se_INT[index_E] * 1e7
@@ -383,7 +383,7 @@ def compute_amorph(region, Temp, pts_RK2, f = f_exp, t0 = 0):
    
     amorph_move, amorph_move_up, amorph_move_down = np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth))
     k1, k2, k1_up, k2_up, k1_down, k2_down = np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth))
-    #test = np.zeros(len(t))
+    #verif = np.zeros(len(t))
     #phiA_theorique = np.zeros(len(t))
 
     j = 0
@@ -409,8 +409,8 @@ def compute_amorph(region, Temp, pts_RK2, f = f_exp, t0 = 0):
         #print ("t = ", i*h)
         j=0
         #print ("amorph_move_up[0] = ", amorph_move_up[0])
-        #test[i] = amorph_move[0]
-        #phiA_theorique[i] = 1 - np.exp(-sigma_flux[3200]*i*h*constants.SECOND_IN_YEAR)
+        #verif[i] = amorph_move[7]
+        #phiA_theorique[i] = 1 - np.exp(-sigma_flux[7]*i*h*constants_Ganymede.SECOND_IN_YEAR)
 
         #delete the first water ice layer due to sputtering, and add a new one at the end, which was never irradiated
         amorph_move = np.roll(amorph_move, -1)
@@ -422,6 +422,14 @@ def compute_amorph(region, Temp, pts_RK2, f = f_exp, t0 = 0):
         amorph_move_down = np.roll(amorph_move_down, -1)
         amorph_move_down[-1] = 0
 
+
+    #plt.plot(t, verif, label="Méthode RK2",linewidth=4)
+    #plt.plot(t, phiA_theorique, label="Solution analytique")
+    #plt.xscale('log')
+    #plt.xlabel('Temps [années]')
+    #plt.ylabel("Fraction d'amorph. à 460 µm de profondeur")
+    #plt.legend()
+    #plt.show()
 
     file_name = os.path.join(constants_Ganymede.WORK_DIR_AMORPH, f'amorph_move_python_{region}_{Temp}K_{tf_yr:.2e}yr_SF{len(depth)}_RK2_{pts_RK2}pts.txt')
     write_file(file_name, depth, amorph_move, amorph_move_up, amorph_move_down)
@@ -486,7 +494,9 @@ def compute_amorph_recryst(region, Temp, pts_RK2, f = f_recryst, t0 = 0):
     
     amorph_move, amorph_move_up, amorph_move_down = np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth))
     k1, k2, k1_up, k2_up, k1_down, k2_down = np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth)), np.zeros(len(depth))
-    #verif = np.zeros(len(t))
+    #verif_1um = np.zeros(len(t))
+    #verif_10um = np.zeros(len(t))
+    #verif_100um = np.zeros(len(t))
     #phiA_theorique = np.zeros(len(t))
 
     j = 0
@@ -509,11 +519,13 @@ def compute_amorph_recryst(region, Temp, pts_RK2, f = f_recryst, t0 = 0):
             amorph_move_down = amorph_move_down + (h_RK2*constants_Ganymede.SECOND_IN_YEAR / 2) * (k1_down + k2_down)
 
             j+=1
-        #print ("t = ", i*h)
+        print ("t = ", i*h)
         j=0
         #print ("amorph_move_up[0] = ", amorph_move_up[0])
-        #verif[i] = amorph_move[3300]
-        #phiA_theorique[i] = 1 - np.exp(-sigma_flux[3200]*i*h*constants.SECOND_IN_YEAR)
+        #verif_1um[i] = amorph_move[7]
+        #verif_10um[i] = amorph_move[65]
+        #verif_100um[i] = amorph_move[645]
+        #phiA_theorique[i] = 1 - np.exp(-sigma_flux[0]*i*h*constants_Ganymede.SECOND_IN_YEAR)
 
         #delete the first water ice layer due to sputtering, and add a new one at the end, which was never irradiated
         amorph_move = np.roll(amorph_move, -1)
@@ -525,11 +537,13 @@ def compute_amorph_recryst(region, Temp, pts_RK2, f = f_recryst, t0 = 0):
         amorph_move_down = np.roll(amorph_move_down, -1)
         amorph_move_down[-1] = 0
 
-    #plt.plot(t, verif)
+    #plt.plot(t, verif_1um, color="black", label="1 µm", linewidth=3, linestyle='solid')
+    #plt.plot(t, verif_10um, color="black", label="10 µm", linewidth=3, linestyle='dashed')
+    #plt.plot(t, verif_100um, color="black", label="100 µm", linewidth=3, linestyle='dotted')
+    #plt.plot(t, phiA_theorique)
     #plt.xscale('log')
-    #plt.yscale('log')
-    #plt.xlabel('time')
-    #plt.ylabel('phiA at layer 1000')
+    #plt.xlabel('Temps [années]')
+    #plt.ylabel("Fraction de glace amorphe à 90 K")
     #plt.legend()
     #plt.show()
 
@@ -662,7 +676,7 @@ def compute_amorph_40Krecryst(region, Temp, pts_RK2, f = f_recryst, t0 = 0):
 
 
 if __name__ == '__main__':
-    compute_phiC_K94(120)
+    #compute_phiC_K94(120)
     """
     # Compute sigma*flux for each region at 90, 100 and 110 K.
     #depth = np.linspace(1e-6, 1.4e-1, 9000)
@@ -686,40 +700,25 @@ if __name__ == '__main__':
 
     
     # Compute amorphous fraction with no recrystallization for each region at 90, 100 and 110 K.
+    #compute_amorph('polar', 90, 2900)
+    #compute_amorph('leading', 90, 5400)
+    #compute_amorph('trailing', 90, 2400)
+
+    #compute_amorph('polar', 100, 1500)
+    #compute_amorph('leading', 100, 3000)
+    #compute_amorph('trailing', 100, 1300)
+
+    #compute_amorph('polar', 110, 800)
+    #compute_amorph('leading', 110, 1600)
+    #compute_amorph('trailing', 110, 650)
     
-    #compute_rk2('polar', 90, 2900)
-    #compute_rk2('leading', 90, 5400)
-    #compute_rk2('trailing', 90, 2400)
 
-    #compute_rk2('polar', 100, 1500)
-    #compute_rk2('leading', 100, 3000)
-    #compute_rk2('trailing', 100, 1300)
 
-    #compute_rk2('polar', 110, 800)
-    #compute_rk2('leading', 110, 1600)
-    #compute_rk2('trailing', 110, 650)
+    # Compute amorphous fraction at the poles using sigma(T) without and with recrystallization at 90, 100 and 110 K.
     
-
-
-    # Compute amorphous fraction using sigma(40 K) with recrystallization for each region at 90, 100 and 110 K.
-    
-    #compute_rk2('polar', 90, 2900)
-    #compute_rk2('polar', 100, 1500)
-    #compute_rk2('polar', 110, 800)
-    #compute_rk2_40Krecryst('polar', 90, 8000)
-    #compute_rk2_40Krecryst('polar', 100, 6000)
-    #compute_rk2_40Krecryst('polar', 110, 4500)
-
-    """
-    compute_amorph('polar', 90, f_recryst, 0, 9e5, 1.5e-7, 8000)
-    compute_amorph('leading', 90, f_recryst, 0, 3e6, 0.46e-7, 10100)
-    compute_amorph('trailing', 90, f_recryst, 0, 4e7, 4e-9, 3500)
-
-    compute_amorph('polar', 100, f_recryst, 0, 9e5, 2e-7, 6000)
-    compute_amorph('leading', 100, f_recryst, 0, 3e6, 0.62e-7, 7500)
-    compute_amorph('trailing', 100, f_recryst, 0, 4e7, 5.5e-9, 3000)
-
-    compute_amorph('polar', 110, f_recryst, 0, 9e5, 2.8e-7, 4500)
-    compute_amorph('leading', 110, f_recryst, 0, 3e6, 0.88e-7, 5500)
-    compute_amorph('trailing', 110, f_recryst, 0, 4e7, 7.7e-9, 2000)
-    """
+    #compute_amorph('polar', 90, 2900)
+    #compute_amorph('polar', 100, 1500)
+    #compute_amorph('polar', 110, 800)
+    #compute_amorph_recryst('polar', 90, 8000)
+    #compute_amorph_recryst('polar', 100, 6000)
+    #compute_amorph_recryst('polar', 110, 4500)
