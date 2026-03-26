@@ -21,7 +21,7 @@ def SRIM_data(elem):
             - PR: projected range of incident ion [µm].
     """
     # file_name to be changed according to the name of the SRIM file.
-    file_name = f"{elem} in  H- O_0.93.txt"
+    file_name = constants_Ganymede.name_file_SRIM(elem)
     path_name = os.path.join(constants_Ganymede.WORK_DIR, file_name)
 
     if(path_name):
@@ -105,12 +105,7 @@ def ESTAR_data(data_name):
     """
     # Since the energy range is not the same for the LET and the projected range, these two parameters are distinguished in parameter.
     # file_name to be changed according to the name of the SRIM file.
-    if (data_name == "LET"):
-        file_name = f"ESTAR_0.93.txt"
-    elif (data_name == "range"):
-        file_name = f"ESTAR_range_0.93.txt"
-    else:
-        raise ValueError("The parameter data_name must be 'LET' or 'range'.")
+    file_name = constants_Ganymede.name_file_ESTAR(data_name)
     path_name = os.path.join(constants_Ganymede.WORK_DIR, file_name)
 
     if(path_name):
@@ -191,14 +186,14 @@ def ion_flux_data(region, elem):
     """
 
     path = constants_Ganymede.WORK_DIR
-    data = np.loadtxt(os.path.join(path, region + '_' + elem + '_accurate.txt'), delimiter=' ') # curves from the paper have been numerized
+    data = np.loadtxt(os.path.join(path, constants_Ganymede.name_file_ion_flux(region, elem)), delimiter=' ') # curves from the paper have been numerized
     energy = data[:, 0]
     flux = data[:, 1]
 
     energy_INT = np.logspace(np.log10(energy[0]), np.log10(energy[-1]), 15000)
     flux_INT = np.interp(energy_INT, energy, flux)  # interpolation of the numerized data on the range energy_INT
-    'print("Energy_INT :", energy_INT)'
-    'print("Flux_INT :", flux_INT)'
+    #print("Energy_INT :", energy_INT)
+    #print("Flux_INT :", flux_INT)
 
     """
     plt.plot(energy_INT, flux_INT, label='INT curves', linewidth=4)
@@ -229,7 +224,7 @@ def electron_flux_data(region, measure):
     """
 
     path = constants_Ganymede.WORK_DIR
-    data = np.loadtxt(os.path.join(path, 'L20_flux' + measure + '_' + region + '.txt'), delimiter=' ')
+    data = np.loadtxt(os.path.join(path, constants_Ganymede.name_file_electron_flux(region, measure)), delimiter=' ')
     energy = data[:, 0]
     flux = data[:, 1]
 
@@ -266,4 +261,4 @@ if __name__ == "__main__":
     #Liuzzo2020_data('20N20S', 'G1')
     #SRIM_data("H")
     #ESTAR_data("range")
-    #ion_flux_data("polar", "H")
+    ion_flux_data("polar", "H")

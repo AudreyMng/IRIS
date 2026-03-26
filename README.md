@@ -47,6 +47,7 @@ It should be adapted by the user. It contains:
     - 'WORK_DIR': path where files will be created to save the results, and where file needed for computations must be stored (TO BE ADAPTED).
     - 'DO_BACKUP': TRUE (by default) for saving overwritten files from computations, False if you don't want to save previous computations.
     - Surface properties: molecular mass and density.
+    - Names of the files used in the code (SRIM, ESTAR and particle fluxes).
     - 'ChemicalElement': list of ion species irradiating the surface (TO BE ADAPTED).
 
 ### upload_data.py
