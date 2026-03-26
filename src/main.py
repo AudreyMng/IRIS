@@ -80,18 +80,18 @@ if(tasks["dose_with_sput_O2"]):
 
 if(tasks["amorph_poles"]):
     # Compute the amorphous fraction on Ganymede' poles induced by ion irradiation
-    number_RK2_points = [2900, 1500, 800]   # necessary point number for the RK2 method to converge.
+    number_RK2_points = [2900, 1500, 800]   # necessary point number for the RK2 method to converge, should be adapted.
     for (Temp, pts_RK2) in zip(Temp_amorph, number_RK2_points):
         amorph.compute_amorph("polar", Temp, pts_RK2)
 
 if(tasks["amorph_poles_recryst"]):
     # Compute the amorphous fraction on Ganymede' poles induced by ion irradiation
-    number_RK2_points_recryst = [8000, 6000, 4500]   # necessary point number for the RK2 method to converge.
+    number_RK2_points_recryst = [8000, 6000, 4500]   # necessary point number for the RK2 method to converge, should be adapted.
     for (Temp, pts_RK2_recryst) in zip(Temp_amorph, number_RK2_points_recryst):
         amorph.compute_amorph_recryst("polar", Temp, pts_RK2_recryst)
 
 if(tasks["amorph_poles_40Krecryst"]):
     # Compute the amorphous fraction on Ganymede' poles induced by ion irradiation
-    number_RK2_points_40K = [8000, 6000, 4500]  # necessary point number for the RK2 method to converge.
+    number_RK2_points_40K = [8000, 6000, 4500]  # necessary point number for the RK2 method to converge, should be adapted.
     for (Temp, pts_RK2_40K) in zip(Temp_amorph, number_RK2_points_40K):
         amorph.compute_amorph_40Krecryst("polar", Temp, pts_RK2_40K)
