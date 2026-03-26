@@ -70,26 +70,6 @@ def compute_dose_incidence(dose_ref, depth_ref):
     return dose_incidence
 
 
-def test_incidence():
-
-    path = constants_Ganymede.WORK_DIR
-    data = np.loadtxt(os.path.join(path, "test_incidence", "dose_e_O_leading_4.55e+09yr_more10_ss_incidence.txt"), delimiter='	') # curves from the paper have been numerized
-    depth_ref = data[:, 0]
-    dose_ref = data[:, 1]
-
-    dose_incidence = compute_dose_incidence(dose_ref, depth_ref)
-
-    plt.plot(depth_ref, dose_incidence, label='dose incidence', linewidth=4)
-    plt.plot(depth_ref, dose_ref, label='dose ref')
-    plt.xscale('log')
-    plt.yscale('log')
-    plt.xlabel('dose')
-    plt.ylabel('depth')
-    plt.legend()
-    plt.show()
-
-    return dose_incidence
-
 
 
 def compute_doses_ions(region, delta_t_yr, density = 0.93, log_scale = False):
@@ -607,7 +587,6 @@ if __name__ == "__main__":
     #compute_doses_ions("leading", 4.55e9, density = 0.93, log_scale = False)
     #compute_doses_ions("leading", 4.55e9, density = 0.93, log_scale = True)
 
-    test_incidence()
 
 
     
