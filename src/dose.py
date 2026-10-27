@@ -359,8 +359,10 @@ def compute_doses_ions_sput(region, Temp, density = 0.93, sput = "O2"):
 
     # definition of time and depth steps
     erosion_1yr_H2O, erosion_1yr_O2, penetration_depth = erosion.compute_erosion_ion(Temp, region, density) # [nm/yr] surface erosion on 1 yr
+    erosion_1yr_O2_elec, _ = erosion.compute_erosion_electron(Temp, "20N60N", "G8", density)
+
     if (sput == "O2"):
-        erosion_1yr = erosion_1yr_O2 * 1e-7
+        erosion_1yr = (erosion_1yr_O2+erosion_1yr_O2_elec) * 1e-7
     else:
         erosion_1yr = erosion_1yr_H2O * 1e-7
     delta_x = depth[1] - depth[0]
@@ -477,9 +479,9 @@ def compute_doses_electrons_sput(region_ion, region_electron, Temp, measure = "G
 
     # definition of time and depth steps
     erosion_1yr_H2O, erosion_1yr_O2, _ = erosion.compute_erosion_ion(Temp, region_ion, density) # [nm/yr] surface erosion on 1 yr
-    _, penetration_depth = erosion.compute_erosion_electron(Temp, region_electron)
+    erosion_1yr_O2_elec, penetration_depth = erosion.compute_erosion_electron(Temp, region_electron)
     if (sput == "O2"):
-        erosion_1yr = erosion_1yr_O2 * 1e-7
+        erosion_1yr = (erosion_1yr_O2+erosion_1yr_O2_elec) * 1e-7
     else:
         erosion_1yr = erosion_1yr_H2O * 1e-7
 
